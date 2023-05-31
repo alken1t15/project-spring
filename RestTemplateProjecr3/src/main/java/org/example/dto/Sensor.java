@@ -1,9 +1,11 @@
 package org.example.dto;
 
 
-
-
 public class Sensor {
+
+    public Sensor() {
+    }
+
     private String name;
 
     public Sensor(String name) {

@@ -1,9 +1,10 @@
 package org.example.dto;
 
 
-
-
 public class MeasurementDTO {
+
+    public MeasurementDTO() {
+    }
 
     public MeasurementDTO(Sensor sensor, Float value, Boolean raining) {
         this.sensor = sensor;

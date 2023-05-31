@@ -8,12 +8,10 @@ import kz.alken1t.alex.restapitask.util.MeasurementNotCreatedException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/measurements")
@@ -23,11 +21,11 @@ public class MeasurementController {
     private final MeasurementService measurementService;
 
     @PostMapping("/add")
-    public ResponseEntity<HttpStatus> addMeasurement(@RequestBody @Valid MeasurementDTO measurementDTO, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
+    public ResponseEntity<HttpStatus> addMeasurement(@RequestBody @Valid MeasurementDTO measurementDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             StringBuilder errorMsg = new StringBuilder();
             List<FieldError> errors = bindingResult.getFieldErrors();
-            for (FieldError error : errors){
+            for (FieldError error : errors) {
                 errorMsg.append(error.getField()).append(" - ").append(error.getDefaultMessage()).append(";");
             }
             throw new MeasurementNotCreatedException(errorMsg.toString());
@@ -39,22 +37,21 @@ public class MeasurementController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<MeasurementErrorResponse> handleException(MeasurementNotCreatedException e){
+    private ResponseEntity<MeasurementErrorResponse> handleException(MeasurementNotCreatedException e) {
         MeasurementErrorResponse response = new MeasurementErrorResponse(
                 e.getMessage()
         );
-        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping
-    public List<MeasurementDTO> measurements(){
-        return measurementService.findAllMeasurements();
-       // return new ResponseEntity<>(measurementService.findAllMeasurements(),HttpStatus.OK);
+    public ResponseEntity<List<MeasurementDTO>> measurements() {
+        return new ResponseEntity<>(measurementService.findAllMeasurements(), HttpStatus.OK);
     }
 
     @GetMapping("/rainyDaysCount")
-    public Integer rainyDaysCount(){
-        return measurementService.rainyDaysCount();
+    public ResponseEntity<Integer> rainyDaysCount() {
+        return new ResponseEntity<>(measurementService.rainyDaysCount(), HttpStatus.OK);
     }
 
 }

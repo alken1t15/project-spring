@@ -20,7 +20,7 @@ public class Sensor {
     private Long id;
 
     @NotEmpty(message = "У сенсора должно быть название")
-    @Size(min = 3,max = 30, message = "Размер должен быть в диапазоне от 3 до 30")
+    @Size(min = 3, max = 30, message = "Размер должен быть в диапазоне от 3 до 30")
     private String name;
 
     @JsonIgnore

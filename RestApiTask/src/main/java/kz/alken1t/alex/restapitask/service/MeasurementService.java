@@ -20,13 +20,13 @@ public class MeasurementService {
     private final SensorService sensorService;
     private final ModelMapper modelMapper;
 
-    public void saveMeasurement(MeasurementDTO measurementDTO) throws MeasurementNotCreatedException{
+    public void saveMeasurement(MeasurementDTO measurementDTO) throws MeasurementNotCreatedException {
         Measurement measurement = modelMapper.map(measurementDTO, Measurement.class);
-        if (measurement.getSensor().getName()==null){
+        if (measurement.getSensor().getName() == null) {
             throw new MeasurementNotCreatedException("Поле должно быть заполненным!");
         }
         Sensor sensor = sensorService.findSensorByName(measurement.getSensor().getName());
-        if(sensor==null){
+        if (sensor == null) {
             throw new MeasurementNotCreatedException("Такого сенсора нету!");
         }
         measurement.setSensor(sensor);
@@ -34,17 +34,17 @@ public class MeasurementService {
         measurementRepository.save(measurement);
     }
 
-    public List<MeasurementDTO> findAllMeasurements(){
+    public List<MeasurementDTO> findAllMeasurements() {
         List<Measurement> measurements = measurementRepository.findAll();
         List<MeasurementDTO> measurementDTOS = new ArrayList<>();
-        for (Measurement measurement : measurements){
-            MeasurementDTO measurementDTO =modelMapper.map(measurement,MeasurementDTO.class);
+        for (Measurement measurement : measurements) {
+            MeasurementDTO measurementDTO = modelMapper.map(measurement, MeasurementDTO.class);
             measurementDTOS.add(measurementDTO);
         }
         return measurementDTOS;
     }
 
-    public Integer rainyDaysCount(){
+    public Integer rainyDaysCount() {
         return measurementRepository.rainyDaysCount();
     }
 }
