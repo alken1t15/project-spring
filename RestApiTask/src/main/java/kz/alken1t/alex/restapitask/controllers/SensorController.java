@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/sensors")
 @AllArgsConstructor
-public class FirstController {
+public class SensorController {
 
     private final SensorService sensorService;
 
